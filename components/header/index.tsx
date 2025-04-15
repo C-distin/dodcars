@@ -93,8 +93,51 @@ export function Header() {
               </Link>
             </motion.div>
           </div>
+
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleMenu}
+              aria-label="Open menu"
+            >
+              {isMenuOpen ? <X className="text-green-400 hover:text-green-500" /> : <Menu className="text-green-400 hover:text-green-500" />}
+            </Button>
+          </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-green-200/80 border-b overflow-hidden backdrop-blur-sm"
+          >
+            <div className="container mx-auto px-4 py-4">
+              <nav className="flex flex-col space-y-4 items-center">
+                {NavLinks.map((link) => (
+                  <Link
+                    key={link.id}
+                    href={link.href}
+                    className="text-gray-600 hover:text-green-500 font-medium transition-colors duration-300 py-2"
+                    onClick={toggleMenu}
+                  >
+                    {link.title}
+                  </Link>
+                ))}
+                <div className="flex flex-col space-y-2 pt-4">
+                  <Link href="/donate">
+                    <Button size="sm" className="bg-green-400">Donate</Button>
+                  </Link>
+                </div>
+              </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }
